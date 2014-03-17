@@ -149,7 +149,8 @@ class ParallelCurl {
         
             $ch = $info['handle'];
             $ch_array_key = (int)$ch;
-            
+            $error_number = $info['result'];
+
             if (!isset($this->outstanding_requests[$ch_array_key])) {
                 die("Error - handle wasn't found in requests: '$ch' in ".
                     print_r($this->outstanding_requests, true));
@@ -168,7 +169,7 @@ class ParallelCurl {
             // push the handler to the pool so that it can be resued by another request
             $this->push_curl_handler($ch);
 
-            call_user_func($callback, $content, $url, $ch, $user_data);
+            call_user_func($callback, $content, $url, $ch, $user_data, $error_number);
                         
         }
     
