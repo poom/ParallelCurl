@@ -94,7 +94,7 @@ class ParallelCurl {
         }
         else {
             curl_setopt($ch, CURLOPT_POST, FALSE);
-            curl_setopt($ch, CURLOPT_POSTFIELDS, null);
+            curl_setopt($ch, CURLOPT_HTTPGET, true);
         }
 
         if (isset($headers)) {
