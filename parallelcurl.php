@@ -110,8 +110,10 @@ class ParallelCurl {
             'callback' => $callback,
             'user_data' => $user_data,
         );
-        
-        $this->checkForCompletedRequests();
+
+        if( $this->max_requests > 0 && count($this->outstanding_requests) > $this->max_requests){
+            $this->checkForCompletedRequests();
+        }
     }
     
     // You *MUST* call this function at the end of your script. It waits for any running requests
@@ -183,10 +185,10 @@ class ParallelCurl {
     private function waitForOutstandingRequestsToDropBelow($max)
     {
         while (1) {
+            if (count($this->outstanding_requests)<$max){
+                break;
+            }
             $this->checkForCompletedRequests();
-            if (count($this->outstanding_requests)<$max)
-            	break;
-            
             usleep(10000);
         }
     }
