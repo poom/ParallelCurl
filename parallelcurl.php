@@ -87,6 +87,12 @@ class ParallelCurl {
         $ch = $this->reuse_curl_handler();
         
         curl_setopt($ch, CURLOPT_URL, $url);
+        if (isset($headers) && isset($headers['referer'])){
+            curl_setopt($ch, CURLOPT_REFERER, $headers['referer']);
+            unset($headers['referer']);
+        } else {
+            curl_setopt($ch, CURLOPT_REFERER, null);
+        }
 
         if (isset($post_fields)) {
             curl_setopt($ch, CURLOPT_POST, TRUE);
